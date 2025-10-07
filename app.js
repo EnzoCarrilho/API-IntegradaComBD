@@ -10,8 +10,6 @@ const express =    require('express')
 const cors =       require('cors') 
 const bodyParser = require('body-parser')
 
-//Import do arquivo de funções
-const dados = require('./modulo/funcoes.js')
 
 //Retorna a porta do sevidor atual ou colocamos uma porta local
 const PORT = process.PORT || 8080
@@ -36,4 +34,8 @@ app.get('/v1/locadora/filme', cors(), async (request, response) => {
     //Chama a função para listar os filmes do BD
     let filme = await controller_filme.listarFilmes()
     response.status(filme.status_code).json(filme)
+})
+
+app.listen(PORT, () => {
+    console.log('API aguardando requisições...')
 })
