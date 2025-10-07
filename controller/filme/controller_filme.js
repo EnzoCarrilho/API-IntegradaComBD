@@ -16,7 +16,7 @@ const listarFilmes = async function(){
     let resultFilmes = await filmeDAO.getSelectAllMovies()
 
     if(resultFilmes){
-        if(resultFilmes.lenght > 0){
+        if(resultFilmes.length > 0){
             MESSAGES.MESSAGE_HEADER.status = MESSAGES.MESSAGE_REQUEST_SUCCESS.status
             MESSAGES.MESSAGE_HEADER.status_code = MESSAGES.MESSAGE_REQUEST_SUCCESS.status_code
             MESSAGES.MESSAGE_HEADER.items.filmes = resultFilmes

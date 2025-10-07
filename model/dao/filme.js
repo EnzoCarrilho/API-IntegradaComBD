@@ -32,7 +32,7 @@ $executeRaw()       - Permite executar um script SQL sem estar em uma variável 
 **********************************************************************************************************************************/
 
 //Import da dependência do Prisma que permite a execução de Script SQL no BD
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require('../../generated/prisma')
 
 //Cria um novo objeto baseado na classe do PrismaClient
 const prisma = new PrismaClient()
