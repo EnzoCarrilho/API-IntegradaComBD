@@ -5,7 +5,7 @@
  * Versão: 1.0
  ***********************************************************************************************************/
 /* 
-   Exemplos de dependências para conexão com BD
+                                    Exemplos de dependências para conexão com BD
     Bancos de Dados Relacionais
         Sequelize -> Foi utilizado em muitos projetos desde o início do node
         Prisma -> é uma dependência atual que trabalha com o BD (SQL, PosthreSQL, SQL Server ou ORM)
