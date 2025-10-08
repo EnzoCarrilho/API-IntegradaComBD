@@ -12,28 +12,64 @@ const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
 
 //Retorna um lista de todos os Filmes
 const listarFilmes = async function(){
-
+    
     //Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
-    //Chama a função do DAO para retornar a lista de filmes do BD
-    let resultFilmes = await filmeDAO.getSelectAllMovies()
+    try{ 
+        //Chama a função do DAO para retornar a lista de filmes do BD
+        let resultFilmes = await filmeDAO.getSelectAllMovies()
 
-    if(resultFilmes){
-        if(resultFilmes.length > 0){
-            MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
-            MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
-            MESSAGES.DEFAULT_HEADER.items.filmes = resultFilmes
+        if(resultFilmes){
+            if(resultFilmes.length > 0){
+                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
+                MESSAGES.DEFAULT_HEADER.items.filmes = resultFilmes
 
-            return MESSAGES.DEFAULT_HEADER
+                return MESSAGES.DEFAULT_HEADER //200
+            }else{
+                return MESSAGES.ERROR_NOT_FOUND //404
+            }
+        }else{
+            return MESSAGES.ERROR_INTERNAL_SERVER_MODEL //500
         }
+
+    }catch(error){
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
 
 }
 
 //Retorna um Filme filtrando pelo ID
 const buscarFilmeId = async function(id){
+    
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+    
+    try {
+        if(!isNaN(id)){
+            let resultFilmes = await filmeDAO.getSelectByIdMovies(Number(id))
 
+            if(resultFilmes){
+                if(resultFilmes.length > 0){
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
+                    MESSAGES.DEFAULT_HEADER.items.filme = resultFilmes
+
+                    return MESSAGES.DEFAULT_HEADER //200
+                }else{
+                    return MESSAGES.ERROR_NOT_FOUND //404
+                }
+            }else{
+                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL //500
+            }
+
+        }else{
+            return MESSAGES.ERROR_REQUIRED_FIELDS //400
+        }
+
+    } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
 }
 
 //Insere um filme 
@@ -53,4 +89,5 @@ const excluirFilme = async function(id){
 
 module.exports = {
     listarFilmes,
+    buscarFilmeId,
 }

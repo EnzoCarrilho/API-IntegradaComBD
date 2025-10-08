@@ -36,6 +36,18 @@ app.get('/v1/locadora/filme', cors(), async (request, response) => {
     response.status(filme.status_code).json(filme)
 })
 
+app.get('/v1/locadora/filme/:id', cors(), async (request, response) => {
+    
+    //Recebe o ID encaminhado via parâmetro na requisição
+    let idFilme = request.params.id
+
+    //Chama a função para buscar o filme do BD filtrando pelo ID
+    let filme = await controller_filme.buscarFilmeId(idFilme)
+    //console.log(filme)
+    response.status(filme.status_code).json(filme)
+})
+
+
 app.listen(PORT, () => {
     console.log('API aguardando requisições...')
 })
