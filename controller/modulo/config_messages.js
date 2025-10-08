@@ -9,17 +9,17 @@ const dataAtual = new Date()
 
 
 /***************************************************MENSAGENS PADRONIZADAS*******************************************/
-const MESSAGE_HEADER = {  
+const DEFAULT_HEADER = {  
     development: 'Enzo Felix Carrilho', 
     api_description: 'API para manipular dados de Filmes',
     status: Boolean,
     status_code: Number,
-    request_date: dataAtual.getTimezoneOffset(),
+    request_date: dataAtual.toLocaleString(), // ou toLocaleString
     items: {}
 }
 
 /***************************************************MENSAGENS DE SUCESSO********************************************/
-const MESSAGE_REQUEST_SUCCESS = {
+const SUCCESS_REQUEST = {
     status: true,
     status_code: 200,
     message: 'Requisição bem sucedida!!!'
@@ -31,6 +31,6 @@ const MESSAGE_REQUEST_SUCCESS = {
 
 
 module.exports = {
-    MESSAGE_HEADER,
-    MESSAGE_REQUEST_SUCCESS
+    DEFAULT_HEADER,
+    SUCCESS_REQUEST
 }
