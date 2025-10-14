@@ -29,13 +29,14 @@ app.use((request, response, next)=>{
 //Import das controllers
 const controller_filme = require('./controller/filme/controller_filme.js')
 
-//EndPoints para a rota de Filme
+//Retorna a lista de todos os filmes
 app.get('/v1/locadora/filme', cors(), async (request, response) => {
     //Chama a função para listar os filmes do BD
     let filme = await controller_filme.listarFilmes()
     response.status(filme.status_code).json(filme)
 })
 
+//Retorna um filme filtrando pelo ID
 app.get('/v1/locadora/filme/:id', cors(), async (request, response) => {
     
     //Recebe o ID encaminhado via parâmetro na requisição
