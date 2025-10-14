@@ -25,6 +25,12 @@ const SUCCESS_REQUEST = {
     message: 'Requisição bem sucedida!!!'
 }
 
+const SUCCESS_CREATED_ITEM = {
+    status: true,
+    status_code: 201,
+    message: 'Item criado com sucesso!!!'
+}
+
 
 /***************************************************MENSAGENS DE ERRO**********************************************/
 const ERROR_NOT_FOUND = {
@@ -51,12 +57,20 @@ const ERROR_REQUIRED_FIELDS = {
     message: 'Não foi possível processar a requsição pois existem campos obrigatórios que devem ser encamninhados e atendidos conforme documentação!!!'
 }
 
+const ERROR_CONTENT_TYPE = {
+    status: false,
+    status_code: 415,
+    message: 'Não foi possível processar a requisição, pois o tipo de dados enviado no corpo deve ser JSON!!!'
+}
+
 
 module.exports = {
     DEFAULT_HEADER,
     SUCCESS_REQUEST,
+    SUCCESS_CREATED_ITEM,
     ERROR_NOT_FOUND,
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_INTERNAL_SERVER_MODEL,
-    ERROR_REQUIRED_FIELDS
+    ERROR_REQUIRED_FIELDS,
+    ERROR_CONTENT_TYPE
 }
