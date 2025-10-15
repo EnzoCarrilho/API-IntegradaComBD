@@ -83,7 +83,27 @@ const inserirFilme = async function(filme, contentType){
         //Validação do tipo de conteúdo da requisição (Obrigatório ser um JSON)
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-         
+            
+            let validar = await validarDadosFilme(filme)
+            if(!validar){    
+                //Processamento
+                //Chama a função para inserir um novo filme no BD 
+                let resultFilmes = await filmeDAO.setInsertMovie(filme)
+
+                if(resultFilmes){
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
+                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
+                    delete MESSAGES.DEFAULT_HEADER.items
+                    
+                    return MESSAGES.DEFAULT_HEADER //201
+                }else{
+                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL //500
+                }
+            }else{
+                return validar // 400
+            }
+        }else{
             return MESSAGES.ERROR_CONTENT_TYPE //415
         }
 
@@ -112,9 +132,6 @@ const excluirFilme = async function(id){
 
 //Validação dos dados de cadastro e atualização do filme
 const validarDadosFilme = async function(filme){
-    
-    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
-
     //Validações de todas entradas de dados
     if(filme.nome == '' || filme.nome == undefined || filme.nome == null || filme.nome.length > 100){
         MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [Nome incorreto]' 
