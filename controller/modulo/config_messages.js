@@ -37,6 +37,14 @@ const SUCCESS_UPDATED_ITEM = {
     message: 'Item atualizado com Sucesso!!!'
 }
 
+const SUCCESS_DELETED_ITEM = {
+    status: true,
+    status_code: 204,
+    message: 'Item deletado com Sucesso!!!'
+}
+
+
+
 
 /***************************************************MENSAGENS DE ERRO**********************************************/
 const ERROR_NOT_FOUND = {
@@ -75,6 +83,7 @@ module.exports = {
     SUCCESS_REQUEST,
     SUCCESS_CREATED_ITEM,
     SUCCESS_UPDATED_ITEM,
+    SUCCESS_DELETED_ITEM,
     ERROR_NOT_FOUND,
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_INTERNAL_SERVER_MODEL,
