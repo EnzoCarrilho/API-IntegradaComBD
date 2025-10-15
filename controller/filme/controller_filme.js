@@ -83,7 +83,7 @@ const inserirFilme = async function(filme, contentType){
         //Validação do tipo de conteúdo da requisição (Obrigatório ser um JSON)
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-            
+            //Chama a função de validação de dados do Filme
             let validar = await validarDadosFilme(filme)
             if(!validar){    
                 //Processamento
@@ -101,7 +101,7 @@ const inserirFilme = async function(filme, contentType){
                     return MESSAGES.ERROR_INTERNAL_SERVER_MODEL //500
                 }
             }else{
-                return validar // 400
+                return validar //400
             }
         }else{
             return MESSAGES.ERROR_CONTENT_TYPE //415
@@ -132,6 +132,9 @@ const excluirFilme = async function(id){
 
 //Validação dos dados de cadastro e atualização do filme
 const validarDadosFilme = async function(filme){
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+    
     //Validações de todas entradas de dados
     if(filme.nome == '' || filme.nome == undefined || filme.nome == null || filme.nome.length > 100){
         MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [Nome incorreto]' 
