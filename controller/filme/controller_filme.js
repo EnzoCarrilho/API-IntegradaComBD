@@ -129,20 +129,22 @@ const atualizarFilme = async function(filme, id, contentType){
                 if(!validar){
 
                     //Validação de ID válido, chama a função da controller que ferifica no BD se o ID existe e valida o
-                    let validarID = await buscarFilmeId()
+                    let validarID = await buscarFilmeId(id)
                     if(validarID.status_code == 200){
 
                         //Adiciona o ID do Filme no JSON de Dados para ser encaminhado ao DAO
                         filme.id = Number(id)
+                        
 
                         //Chama a função para inserir um novo filme no BD 
                         let resultFilmes = await filmeDAO.setUpdateMovies(filme)
+                        
 
                         if(resultFilmes){
                             MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                             MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                             MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
-                            delete MESSAGES.DEFAULT_HEADER.items
+                            MESSAGES.DEFAULT_HEADER.items.filme = filme
                             
                             return MESSAGES.DEFAULT_HEADER //201
                         }else{
@@ -212,4 +214,5 @@ module.exports = {
     listarFilmes,
     buscarFilmeId,
     inserirFilme,
+    atualizarFilme,
 }

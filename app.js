@@ -51,7 +51,7 @@ app.get('/v1/locadora/filme/:id', cors(), async (request, response) => {
     response.status(filme.status_code).json(filme)
 })
 
-
+//Insere um novo Filme
 app.post('/v1/locadora/filme', cors(), bodyParserJSON, async (request, response) => {
 
     //Recebe os dados do body da rtequisição (Se você utilizar o bodyParser é sobrigatório ter no EndPoint)
@@ -64,6 +64,21 @@ app.post('/v1/locadora/filme', cors(), bodyParserJSON, async (request, response)
     let filme = await controller_filme.inserirFilme(dadosBody, contentType)
     response.status(filme.status_code).json(filme)
 
+})
+
+//Atualiza um filme existente
+app.put('/v1/locadora/filme/:id', cors(), bodyParserJSON, async(request, response) => {
+    //Recebe o ID do Filme
+    let idFilme = request.params.id
+    
+    //Recebe os dados a serem atualizados
+    let dadosBody = request.body
+    
+    //Recebe o content-type da requisição
+    let contentType = request.headers['content-type']
+
+    let filme = await controller_filme.atualizarFilme(dadosBody, idFilme, contentType)
+    response.status(filme.status_code).json(filme)
 })
 
 app.listen(PORT, () => {
