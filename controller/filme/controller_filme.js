@@ -47,6 +47,7 @@ const buscarFilmeId = async function(id){
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     
     try {
+        //Validação da chegada do ID
         if(!isNaN(id) && id != '' && id > 0){
             let resultFilmes = await filmeDAO.getSelectByIdMovies(Number(id))
 
@@ -66,6 +67,7 @@ const buscarFilmeId = async function(id){
             }
 
         }else{
+            MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [ID Incorreto]'
             return MESSAGES.ERROR_REQUIRED_FIELDS //400
         }
 
@@ -114,12 +116,49 @@ const inserirFilme = async function(filme, contentType){
 }
 
 //Atualiza um Filme buscando pelo ID
-const atualizarFilme = async function(filme, id){
+const atualizarFilme = async function(filme, id, contentType){
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
 
     try {
-        
+        //Validação do tipo de conteúdo da requisição (Obrigatório ser um JSON)
+        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+                //Chama a função de validação de dados do Filme
+                let validar = await validarDadosFilme(filme)
+                if(!validar){
+
+                    //Validação de ID válido, chama a função da controller que ferifica no BD se o ID existe e valida o
+                    let validarID = await buscarFilmeId()
+                    if(validarID.status_code == 200){
+
+                        //Adiciona o ID do Filme no JSON de Dados para ser encaminhado ao DAO
+                        filme.id = Number(id)
+
+                        //Chama a função para inserir um novo filme no BD 
+                        let resultFilmes = await filmeDAO.setUpdateMovies(filme)
+
+                        if(resultFilmes){
+                            MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
+                            MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
+                            MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
+                            delete MESSAGES.DEFAULT_HEADER.items
+                            
+                            return MESSAGES.DEFAULT_HEADER //201
+                        }else{
+                            return MESSAGES.ERROR_INTERNAL_SERVER_MODEL //500
+                        }
+                    }else{
+                        return validarID //A função buscarFilmeId poderá retornar (400 | 404 | 500) 
+                    }
+                }else{
+                    return validar //400 Referente a validação dos dados 
+                }
+            
+        }else{
+            return MESSAGES.ERROR_CONTENT_TYPE //415
+        }
+
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
@@ -134,7 +173,7 @@ const excluirFilme = async function(id){
 const validarDadosFilme = async function(filme){
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
-    
+
     //Validações de todas entradas de dados
     if(filme.nome == '' || filme.nome == undefined || filme.nome == null || filme.nome.length > 100){
         MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [Nome incorreto]' 

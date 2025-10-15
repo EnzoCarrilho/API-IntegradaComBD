@@ -31,6 +31,12 @@ const SUCCESS_CREATED_ITEM = {
     message: 'Item criado com sucesso!!!'
 }
 
+const SUCCESS_UPDATED_ITEM = {
+    status: true,
+    status_code: 200,
+    message: 'Item atualizado com Sucesso!!!'
+}
+
 
 /***************************************************MENSAGENS DE ERRO**********************************************/
 const ERROR_NOT_FOUND = {
@@ -68,6 +74,7 @@ module.exports = {
     DEFAULT_HEADER,
     SUCCESS_REQUEST,
     SUCCESS_CREATED_ITEM,
+    SUCCESS_UPDATED_ITEM,
     ERROR_NOT_FOUND,
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_INTERNAL_SERVER_MODEL,
