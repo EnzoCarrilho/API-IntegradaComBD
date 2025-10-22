@@ -156,6 +156,40 @@ const atualizarGenero = async function (genero, id, contentType){
 
 }
 
+const exluirGenero = async function(id){
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+    
+    try {
+            
+        let validarId = await buscarGeneroID(id)
+            
+        if(validarId.status_code == 200){
+                
+            let resultFilmes = await generoDAO.setDeleteGenres(Number(id))
+    
+            if(resultFilmes){
+                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status
+                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code
+                MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message
+                delete MESSAGES.DEFAULT_HEADER.items
+                    
+                return MESSAGES.DEFAULT_HEADER //200
+            }else{
+                return MESSAGES.ERROR_NOT_FOUND //404
+                }
+    
+            }else{
+                return validarId
+            }
+    
+        } catch (error) {
+            return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER //500
+        }
+        
+    
+}
+
 
 
 module.exports = {
