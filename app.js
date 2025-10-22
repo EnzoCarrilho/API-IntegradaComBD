@@ -118,7 +118,7 @@ app.post('/v1/locadora/genero', cors(), bodyParserJSON, async (request, response
 })
 
 app.put('/v1/locadora/genero/:id', cors(), bodyParserJSON, async(request, response) => {
-    let idFilme = request.params.id
+    let idGenero = request.params.id
     let dadosBody = request.body
     let contentType = request.headers['content-type']
 
