@@ -151,7 +151,7 @@ const atualizarGenero = async function (genero, id, contentType){
             }
         }
     }else{
-
+        return MESSAGES.ERROR_CONTENT_TYPE
     }        
 
 }
@@ -162,4 +162,5 @@ module.exports = {
     listarGeneros,
     buscarGeneroID,
     inserirGenero,
+    atualizarGenero,
 }
