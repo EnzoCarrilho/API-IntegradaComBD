@@ -104,6 +104,7 @@ const setDeleteGenres = async function(id){
         let sql = `delete from tbl_genero where genero_id = ${id}`
 
         let result = await prisma.$executeRawUnsafe(sql)
+        
 
         if(result)
             return result

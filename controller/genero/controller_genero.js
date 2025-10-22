@@ -156,7 +156,7 @@ const atualizarGenero = async function (genero, id, contentType){
 
 }
 
-const exluirGenero = async function(id){
+const excluirGenero = async function(id){
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
     
@@ -166,9 +166,10 @@ const exluirGenero = async function(id){
             
         if(validarId.status_code == 200){
                 
-            let resultFilmes = await generoDAO.setDeleteGenres(Number(id))
+            let resultGeneros = await generoDAO.setDeleteGenres(Number(id))
+            
     
-            if(resultFilmes){
+            if(resultGeneros){
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code
                 MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message
@@ -197,4 +198,5 @@ module.exports = {
     buscarGeneroID,
     inserirGenero,
     atualizarGenero,
+    excluirGenero
 }

@@ -126,11 +126,12 @@ app.put('/v1/locadora/genero/:id', cors(), bodyParserJSON, async(request, respon
     response.status(genero.status_code).json(genero)
 })
 
-app.delete('/v1/locadora/filme/:id', cors(), async(request, response) => {
+app.delete('/v1/locadora/genero/:id', cors(), async(request, response) => {
     let idGenero = request.params.id
-
-    let genero = await controller_filme.excluirFilme(idGenero)
-    response.status(filme.status_code).json(genero)
+    
+    let genero = await controller_genero.excluirGenero(idGenero)
+    
+    response.status(genero.status_code).json(genero)
 })
 
 app.listen(PORT, () => {
