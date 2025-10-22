@@ -31,6 +31,9 @@ app.use((request, response, next)=>{
 
 //Import das controllers
 const controller_filme = require('./controller/filme/controller_filme.js')
+const controller_genero = require('./controller/genero/controller_genero.js')
+
+/********************************************************************* CRUD DE FILMES ***************************************************/
 
 //Retorna a lista de todos os filmes
 app.get('/v1/locadora/filme', cors(), async (request, response) => {
@@ -86,6 +89,14 @@ app.delete('/v1/locadora/filme/:id', cors(), async(request, response) => {
 
     let filme = await controller_filme.excluirFilme(idFilme)
     response.status(filme.status_code).json(filme)
+})
+
+
+/********************************************************************* CRUD DE GÊNEROS ***************************************************/
+app.get('/v1/locadora/genero', cors(), async (request, response) => {
+    //Chama a função para listar os generos do BD
+    let genero = await controller_genero.listarGeneros()
+    response.status(genero.status_code).json(genero)
 })
 
 app.listen(PORT, () => {

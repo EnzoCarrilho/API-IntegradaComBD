@@ -5,7 +5,6 @@
  * Versão: 1.0
  ***********************************************************************************************************/
 //Import do model da DAO do filme
-const e = require('express')
 const filmeDAO = require('../../model/dao/filme.js')
 
 //Import do arquivo de mensagens
