@@ -30,7 +30,7 @@ const getSelectAllGenres = async function(){
 }
 
 //Retorna um Gênero Filtrando pelo ID
-const getSelextByIdGenres = async function(id){
+const getSelectByIdGenres = async function(id){
     try {
         let sql = `select * from tbl_genero where genero_id = ${id};`
 
@@ -40,7 +40,7 @@ const getSelextByIdGenres = async function(id){
             return result
         else
             return false
-        
+
     } catch (error) {
         return false
     }
@@ -51,4 +51,5 @@ const getSelextByIdGenres = async function(id){
 
 module.exports = {
     getSelectAllGenres,
+    getSelectByIdGenres,
 }

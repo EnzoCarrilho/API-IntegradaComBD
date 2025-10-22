@@ -99,6 +99,15 @@ app.get('/v1/locadora/genero', cors(), async (request, response) => {
     response.status(genero.status_code).json(genero)
 })
 
+app.get('/v1/locadora/genero/:id', cors(), async(request, response) => {
+    //Obtendo o ID do Gênero
+    let idGenero = request.params.id
+
+    let genero = await controller_genero.buscarGeneroID(idGenero)
+    
+    response.status(genero.status_code).json(genero)
+})
+
 app.listen(PORT, () => {
     console.log('API aguardando requisições...')
 })
