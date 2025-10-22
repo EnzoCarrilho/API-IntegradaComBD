@@ -108,6 +108,15 @@ app.get('/v1/locadora/genero/:id', cors(), async(request, response) => {
     response.status(genero.status_code).json(genero)
 })
 
+app.post('/v1/locadora/genero', cors(), bodyParserJSON, async (request, response) => {
+    let dadosBody = request.body
+
+    let contentType = request.headers['content-type']
+
+    let genero = await controller_genero.inserirGenero(dadosBody, contentType)
+    response.status(genero.status_code).json(genero)
+})
+
 app.listen(PORT, () => {
     console.log('API aguardando requisições...')
 })

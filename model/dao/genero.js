@@ -46,10 +46,45 @@ const getSelectByIdGenres = async function(id){
     }
 }
 
+const getSelectLastId = async function(){
+    try {
+        //Script SQL que retorna apenas o último ID do BD
+        let sql = `select genero_id from tbl_genero order by genero_id desc limit 1;`
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(Array.isArray(result))
+            return Number(result[0].genero_id)
+        else
+            return false
+    } catch (error) {
+        return false
+    }
+}
+
+const setInsertGenero = async function(genero){
+    try {
+
+        let sql = `INSERT INTO tbl_genero(nome)values('${genero.nome}');`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+        
+        if(result)
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
 
 
 
 module.exports = {
     getSelectAllGenres,
     getSelectByIdGenres,
+    getSelectLastId,
+    setInsertGenero,
 }
