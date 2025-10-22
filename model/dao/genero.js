@@ -46,6 +46,7 @@ const getSelectByIdGenres = async function(id){
     }
 }
 
+//Retorna o último ID do Gênero Cadastrado
 const getSelectLastId = async function(){
     try {
         //Script SQL que retorna apenas o último ID do BD
@@ -62,7 +63,7 @@ const getSelectLastId = async function(){
     }
 }
 
-const setInsertGenero = async function(genero){
+const setInsertGenre = async function(genero){
     try {
 
         let sql = `INSERT INTO tbl_genero(nome)values('${genero.nome}');`
@@ -79,6 +80,24 @@ const setInsertGenero = async function(genero){
     }
 }
 
+const setUpdateGenres = async function(genero){
+    try {
+        let sql = `UPDATE tbl_genero SET 
+                    nome = '${genero.nome}' WHERE genero_id = ${genero.id};`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+        
+}       
+
 
 
 
@@ -86,5 +105,6 @@ module.exports = {
     getSelectAllGenres,
     getSelectByIdGenres,
     getSelectLastId,
-    setInsertGenero,
+    setInsertGenre,
+    setUpdateGenres,
 }
