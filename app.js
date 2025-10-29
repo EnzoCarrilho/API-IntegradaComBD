@@ -196,6 +196,15 @@ app.get('/v1/locadora/cargo/:id', cors(), async(request, response) => {
     response.status(cargo.status_code).json(cargo)
 })
 
+app.post('/v1/locadora/cargo', cors(), bodyParserJSON, async (request, response) => {
+    let dadosBody = request.body
+
+    let contentType = request.headers['content-type']
+
+    let cargo = await controller_cargo.inserirCargo(dadosBody, contentType)
+    response.status(cargo.status_code).json(cargo)
+})
+
 
 
 
