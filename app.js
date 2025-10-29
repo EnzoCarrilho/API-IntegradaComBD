@@ -163,3 +163,12 @@ app.post('/v1/locadora/faixa-etaria', cors(), bodyParserJSON, async (request, re
     let faixaEtaria = await controller_faixaEtaria.inserirFaixaEtaria(dadosBody, contentType)
     response.status(faixaEtaria.status_code).json(faixaEtaria)
 })
+
+app.put('/v1/locadora/faixa-etaria/:id', cors(), bodyParserJSON, async(request, response) => {
+    let idFaixaEtaria = request.params.id
+    let dadosBody = request.body
+    let contentType = request.headers['content-type']
+
+    let faixaEtaria = await controller_faixaEtaria.atualizarFaixaEtaria(dadosBody, idFaixaEtaria, contentType)
+    response.status(faixaEtaria.status_code).json(faixaEtaria)
+})

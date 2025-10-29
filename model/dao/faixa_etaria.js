@@ -81,9 +81,32 @@ const setInsertAgeGroup = async function(faixaEtaria){
 }
 
 
+const setUpdateAgeGroup = async function(faixaEtaria){
+    try {
+        let sql = `UPDATE tbl_faixa_etaria SET 
+                    classificacao = '${faixaEtaria.classificacao}' WHERE faixa_etaria_id = ${faixaEtaria.id};`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+        
+}
+
+
+
+
+
 module.exports = {
     getSelectAllAgeGroups,
     getSelectByIdAgeGroup,
     getSelectLastId,
-    setInsertAgeGroup
+    setInsertAgeGroup,
+    setUpdateAgeGroup,
 }
