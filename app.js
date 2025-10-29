@@ -180,6 +180,10 @@ app.delete('/v1/locadora/faixa-etaria/:id', cors(), async(request, response) => 
 
 
 
+
+
+
+
 app.listen(PORT, () => {
     console.log('API aguardando requisições...')
 })
