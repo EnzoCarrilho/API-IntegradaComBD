@@ -33,6 +33,7 @@ app.use((request, response, next)=>{
 const controller_filme = require('./controller/filme/controller_filme.js')
 const controller_genero = require('./controller/genero/controller_genero.js')
 const controller_faixaEtaria = require('./controller/faixa-etaria/controller_faixa_etaria.js')
+const controller_cargo = require('./controller/cargo/controller_cargo.js')
 
 /********************************************************************* EndPoints DE FILMES ***************************************************/
 
@@ -179,6 +180,12 @@ app.delete('/v1/locadora/faixa-etaria/:id', cors(), async(request, response) => 
 })
 
 
+
+/********************************************************************* EndPoints DE CARGOS ***************************************************/
+app.get('/v1/locadora/cargo', cors(), async (request, response) => {
+    let cargo = await controller_cargo.listarCargos()
+    response.status(cargo.status_code).json(cargo)
+})
 
 
 

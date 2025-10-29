@@ -1,9 +1,9 @@
-/***********************************************************************************************************
+/*****************************************************************************************************************
  * Objetivo: Arquivo responsável pelo CRUD de dados no MySQL referente a CARGOS dentro de uma Produtora de filmes 
  * Data: 29/10/2025
  * Autor: Enzo
  * Versão: 1.0
- ***********************************************************************************************************/
+ *****************************************************************************************************************/
 
 //Import da dependência do Prisma que permite a execução de Script SQL no BD
 const { PrismaClient } = require('../../generated/prisma')
@@ -11,7 +11,6 @@ const { PrismaClient } = require('../../generated/prisma')
 //Cria um novo objeto baseado na classe do PrismaClient
 const prisma = new PrismaClient()
 
-//Retorna todos os gêneros cadastrados no BD
 const getSelectAllRoles = async function(){
     try {
 
@@ -29,9 +28,26 @@ const getSelectAllRoles = async function(){
     }
 }
 
+const getSelectByIdRole = async function(id){
+    try {
+        let sql = `select * from tbl_cargo where cargo_id = ${id};`
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(Array.isArray(result))
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
 
 
 
 module.exports = {
-    getSelectAllRoles
+    getSelectAllRoles,
+    getSelectByIdRole
 }
