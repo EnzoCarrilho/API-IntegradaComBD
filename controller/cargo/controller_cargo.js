@@ -76,9 +76,58 @@ const buscarCargoID = async function(id){
     }
 }
 
+const inserirCargo = async function(cargo, contentType){
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+        //Validação da entrada de dados
+        if(cargo.nome == '' || cargo.nome == undefined || cargo.nome == null || cargo.nome.length > 100){
+            MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [Nome de Gênero Inválido]' 
+
+            return MESSAGES.ERROR_REQUIRED_FIELDS //400
+
+        }else if(cargo.descricao == undefined){
+            MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [Descrição Inválida]' 
+
+            return MESSAGES.ERROR_REQUIRED_FIELDS //400
+
+        }else{
+
+            let resultCargo = await cargoDAO.setInsertRole(cargo)
+
+            //Adicionar Filme no retorno
+            if(resultCargo){
+
+                let lastId = await cargoDAO.getSelectLastId()
+                
+                if(lastId){
+                    cargo.id = lastId
+
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
+                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
+                    MESSAGES.DEFAULT_HEADER.items = cargo
+                }else{
+                    MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+                }            
+                return MESSAGES.DEFAULT_HEADER //201
+            }else{
+                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }
+
+    }else{
+        return MESSAGES.ERROR_CONTENT_TYPE //415
+    }
+
+}
+
 
 
 module.exports = {
     listarCargos,
-    buscarCargoID
+    buscarCargoID,
+    inserirCargo
 }

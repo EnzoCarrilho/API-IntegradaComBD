@@ -44,10 +44,59 @@ const getSelectByIdRole = async function(id){
     }
 }
 
+const getSelectLastId = async function(){
+    try {
+        //Script SQL que retorna apenas o último ID do BD
+        let sql = `select cargo_id from tbl_cargo order by cargo_id desc limit 1;`
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(Array.isArray(result))
+            return Number(result[0].genero_id)
+        else
+            return false
+    } catch (error) {
+        return false
+    }
+}
+
+const setInsertRole = async function(cargo){
+
+    try {
+
+        if(cargo.descicao != undefined){
+
+            let sql = `INSERT INTO tbl_cargo(nome, descricao)values('${cargo.nome}', '${cargo.descricao}');`
+
+            let result = await prisma.$executeRawUnsafe(sql)
+            
+            if(result)
+                return result
+            else
+                return false
+
+        }else{
+
+            let sql = `INSERT INTO tbl_cargo(nome, descricao)values('${cargo.nome}', ${null});`
+
+            let result = await prisma.$executeRawUnsafe(sql)
+            
+            if(result)
+                return result
+            else
+                return false
+        }
+
+    } catch (error) {
+        return false
+    }
+}
 
 
 
 module.exports = {
     getSelectAllRoles,
-    getSelectByIdRole
+    getSelectByIdRole,
+    getSelectLastId,
+    setInsertRole
 }
