@@ -99,7 +99,22 @@ const setUpdateAgeGroup = async function(faixaEtaria){
         
 }
 
+const setDeleteAgeGroup = async function(id){
+    try {
+        
+        let sql = `delete from tbl_faixa_etaria where faixa_etaria_id = ${id}`
 
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
 
 
 
@@ -109,4 +124,5 @@ module.exports = {
     getSelectLastId,
     setInsertAgeGroup,
     setUpdateAgeGroup,
+    setDeleteAgeGroup
 }

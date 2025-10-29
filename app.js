@@ -135,9 +135,6 @@ app.delete('/v1/locadora/genero/:id', cors(), async(request, response) => {
     response.status(genero.status_code).json(genero)
 })
 
-app.listen(PORT, () => {
-    console.log('API aguardando requisições...')
-})
 
 /********************************************************************* EndPoints DE FAIXA ETÁRIA ***************************************************/
 app.get('/v1/locadora/faixa-etaria', cors(), async (request, response) => {
@@ -171,4 +168,18 @@ app.put('/v1/locadora/faixa-etaria/:id', cors(), bodyParserJSON, async(request, 
 
     let faixaEtaria = await controller_faixaEtaria.atualizarFaixaEtaria(dadosBody, idFaixaEtaria, contentType)
     response.status(faixaEtaria.status_code).json(faixaEtaria)
+})
+
+app.delete('/v1/locadora/faixa-etaria/:id', cors(), async(request, response) => {
+    let idFaixaEtaria = request.params.id
+    
+    let faixaEtaria = await controller_faixaEtaria.excluirFaixaEtaria(idFaixaEtaria)
+    
+    response.status(faixaEtaria.status_code).json(faixaEtaria)
+})
+
+
+
+app.listen(PORT, () => {
+    console.log('API aguardando requisições...')
 })

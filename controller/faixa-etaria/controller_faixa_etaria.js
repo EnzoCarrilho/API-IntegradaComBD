@@ -156,10 +156,44 @@ const atualizarFaixaEtaria = async function (faixaEtaria, id, contentType){
 
 }
 
+const excluirFaixaEtaria = async function(id){
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+    
+    try {
+            
+        let validarId = await buscarFaixaEtariaID(id)
+            
+        if(validarId.status_code == 200){
+                
+            let resultFaixaEtaria = await faixaEtariaDAO.setDeleteAgeGroup(Number(id))
+            
+    
+            if(resultFaixaEtaria){
+                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status
+                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code
+                MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message
+                delete MESSAGES.DEFAULT_HEADER.items
+                    
+                return MESSAGES.DEFAULT_HEADER //200
+            }else{
+                return MESSAGES.ERROR_NOT_FOUND //404
+                }
+    
+            }else{
+                return validarId
+            }
+    
+        } catch (error) {
+            return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER //500
+        }
+}
+
 
 module.exports = {
     listarFaixasEtaria,
     buscarFaixaEtariaID,
     inserirFaixaEtaria,
-    atualizarFaixaEtaria
+    atualizarFaixaEtaria,
+    excluirFaixaEtaria
 }

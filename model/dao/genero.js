@@ -117,6 +117,8 @@ const setDeleteGenres = async function(id){
 }
 
 
+
+
 module.exports = {
     getSelectAllGenres,
     getSelectByIdGenres,
