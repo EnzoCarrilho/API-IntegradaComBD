@@ -187,6 +187,14 @@ app.get('/v1/locadora/cargo', cors(), async (request, response) => {
     response.status(cargo.status_code).json(cargo)
 })
 
+app.get('/v1/locadora/cargo/:id', cors(), async(request, response) => {
+    //Obtendo o ID do Gênero
+    let idCargo = request.params.id
+
+    let cargo = await controller_cargo.buscarCargoID(idCargo)
+    
+    response.status(cargo.status_code).json(cargo)
+})
 
 
 

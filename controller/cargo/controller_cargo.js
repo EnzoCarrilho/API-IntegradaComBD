@@ -80,4 +80,5 @@ const buscarCargoID = async function(id){
 
 module.exports = {
     listarCargos,
+    buscarCargoID
 }
