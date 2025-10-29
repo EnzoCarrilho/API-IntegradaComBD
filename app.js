@@ -32,8 +32,9 @@ app.use((request, response, next)=>{
 //Import das controllers
 const controller_filme = require('./controller/filme/controller_filme.js')
 const controller_genero = require('./controller/genero/controller_genero.js')
+const controller_faixaEtaria = require('./controller/faixa-etaria/controller_faixa_etaria.js')
 
-/********************************************************************* CRUD DE FILMES ***************************************************/
+/********************************************************************* EndPoints DE FILMES ***************************************************/
 
 //Retorna a lista de todos os filmes
 app.get('/v1/locadora/filme', cors(), async (request, response) => {
@@ -92,7 +93,7 @@ app.delete('/v1/locadora/filme/:id', cors(), async(request, response) => {
 })
 
 
-/********************************************************************* CRUD DE GÊNEROS ***************************************************/
+/********************************************************************* EndPoints DE GÊNEROS ***************************************************/
 app.get('/v1/locadora/genero', cors(), async (request, response) => {
     //Chama a função para listar os generos do BD
     let genero = await controller_genero.listarGeneros()
@@ -136,4 +137,20 @@ app.delete('/v1/locadora/genero/:id', cors(), async(request, response) => {
 
 app.listen(PORT, () => {
     console.log('API aguardando requisições...')
+})
+
+/********************************************************************* EndPoints DE FAIXA ETÁRIA ***************************************************/
+app.get('/v1/locadora/faixa-etaria', cors(), async (request, response) => {
+    //Chama a função para listar os generos do BD
+    let faixaEtaria = await controller_faixaEtaria.listarFaixasEtaria()
+    response.status(faixaEtaria.status_code).json(faixaEtaria)
+})
+
+app.get('/v1/locadora/faixa-etaria/:id', cors(), async(request, response) => {
+    //Obtendo o ID do Gênero
+    let idFaixaEtaria = request.params.id
+
+    let faixaEtaria = await controller_faixaEtaria.buscarFaixaEtariaID(idFaixaEtaria)
+    
+    response.status(faixaEtaria.status_code).json(faixaEtaria)
 })
