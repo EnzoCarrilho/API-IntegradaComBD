@@ -34,12 +34,14 @@ const routes_filme = require('./routes/routes_filme.js')
 const routes_genero = require('./routes/routes_genero.js')
 const routes_faixaEtaria = require('./routes/routes_faixaEtaria.js')
 const routes_cargo = require('./routes/routes_cargo.js')
+const routes_produtora = require('./routes/routes_produtora.js')
 
 
 app.use(routes_filme)
 app.use(routes_genero)
 app.use(routes_faixaEtaria)
 app.use(routes_cargo)
+app.use(routes_produtora)
 
 
 

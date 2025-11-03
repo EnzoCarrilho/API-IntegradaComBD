@@ -1,5 +1,5 @@
 /*****************************************************************************************************************
- * Objetivo: Arquivo responsável pelo CRUD de dados no MySQL referente a CARGOS dentro de uma Produtora de filmes 
+ * Objetivo: Arquivo responsável pelo CRUD de dados no MySQL referente a cargos da equipe de filmagem de filmes 
  * Data: 29/10/2025
  * Autor: Enzo
  * Versão: 1.0

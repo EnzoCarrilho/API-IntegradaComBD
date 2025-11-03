@@ -1,5 +1,5 @@
 /*******************************************************************************************************************
- * Objetivo: Arquivo responsável pela manipulação de dados entre o APP e a MODEL para o CRUD de Gêneros de Filmes
+ * Objetivo: Arquivo responsável pela manipulação de dados entre o APP e a MODEL para o CRUD de cargos da equipe de Filmes
  * Data: 29/10/2025
  * Autor: Enzo
  * Versão: 1.0
