@@ -132,9 +132,6 @@ const setUpdateProducer = async function(produtora){
 
 
 
-
-
-
 module.exports = {
     getSelectAllProducers,
     getSelectByIdProducer,

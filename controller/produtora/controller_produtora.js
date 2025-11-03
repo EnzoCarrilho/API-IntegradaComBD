@@ -82,7 +82,7 @@ const inserirProdutora = async function(produtora, contentType){
     try {
          if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-        let validar = validarDadosProdutora()
+        let validar = await validarDadosProdutora()
         if(!validar){
             
             let resultProducer = await producerDAO.setInsertProducer(produtora)
@@ -119,6 +119,56 @@ const inserirProdutora = async function(produtora, contentType){
     }
 }
 
+const atualizarProdutora = async function(produtora, id, contentType){
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    try {
+        //Validação do tipo de conteúdo da requisição (Obrigatório ser um JSON)
+        if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+                //Chama a função de validação de dados do Filme
+                let validar = await validarDadosProdutora(produtora)
+                if(!validar){
+
+                    //Validação de ID válido, chama a função da controller que ferifica no BD se o ID existe e valida o
+                    let validarID = await buscarProdutoraID(id)
+                    if(validarID.status_code == 200){
+
+                        //Adiciona o ID do Filme no JSON de Dados para ser encaminhado ao DAO
+                        produtora.id = Number(id)
+                        
+
+                        //Chama a função para inserir um novo filme no BD 
+                        let resultProducer = await producerDAO.setUpdateProducer(produtora)
+                        
+
+                        if(resultProducer){
+                            MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
+                            MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
+                            MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
+                            MESSAGES.DEFAULT_HEADER.items.produtora = produtora
+                            
+                            return MESSAGES.DEFAULT_HEADER //201
+                        }else{
+                            return MESSAGES.ERROR_INTERNAL_SERVER_MODEL //500
+                        }
+                    }else{
+                        return validarID //A função buscarFilmeId poderá retornar (400 | 404 | 500) 
+                    }
+                }else{
+                    return validar //400 Referente a validação dos dados 
+                }
+            
+        }else{
+            return MESSAGES.ERROR_CONTENT_TYPE //415
+        }
+
+    } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
+}
+
 
 
 
@@ -149,5 +199,6 @@ const validarDadosProdutora = async function(produtora){
 module.exports = {
     listarProdutoras,
     buscarProdutoraID,
-    inserirProdutora
+    inserirProdutora,
+    atualizarProdutora
 }
