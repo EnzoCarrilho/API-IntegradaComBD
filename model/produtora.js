@@ -28,8 +28,23 @@ const getSelectAllProducers = async function(){
     }
 }
 
+const getSelectByIdProducer = async function(id){
+    try {
+        let sql = `select * from tbl_produtora where cargo_id = ${id};`
 
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(Array.isArray(result))
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
 
 module.exports = {
-    getSelectAllProducers
+    getSelectAllProducers,
+    getSelectByIdProducer
 }
