@@ -75,8 +75,79 @@ const buscarProdutoraID = async function(id){
     }
 }
 
+const inserirProdutora = async function(produtora, contentType){
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    try {
+         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+        let validar = validarDadosProdutora()
+        if(!validar){
+            
+            let resultProducer = await producerDAO.setInsertProducer(produtora)
+
+            //Adicionar Filme no retorno
+            if(resultProducer){
+
+                let lastId = await producerDAO.getSelectLastId()
+                
+                if(lastId){
+                    produtora.id = lastId
+
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
+                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
+                    MESSAGES.DEFAULT_HEADER.items = produtora
+                }else{
+                    MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+                }            
+                return MESSAGES.DEFAULT_HEADER //201
+            }else{
+                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return validar
+        }
+
+    }else{
+        return MESSAGES.ERROR_CONTENT_TYPE //415
+    }
+        
+    } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
+}
+
+
+
+
+
+const validarDadosProdutora = async function(produtora){
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    //Validações de todas entradas de dados
+    if(produtora.nome == '' || produtora.nome == undefined || produtora.nome == null || produtora.nome.length > 100){
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [Nome incorreto]' 
+        return MESSAGES.ERROR_REQUIRED_FIELDS //400
+    
+    }else if(produtora.ano_fundacao == undefined || produtora.ano_fundacao == null, produtora.ano_fundacao == '' || produtora.ano_fundacao.length > 10){
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [Ano de Fundação incorreta]' 
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+
+    }else if(produtora.logo_url == undefined || produtora.logo_url == '' ||  produtora.logo_url == null){
+        MESSAGES.ERROR_REQUIRED_FIELDS.message += ' [url do logo incorreta]' 
+        return MESSAGES.ERROR_REQUIRED_FIELDS
+
+    }else{
+        return false
+    }
+}
+
 
 module.exports = {
     listarProdutoras,
-    buscarProdutoraID
+    buscarProdutoraID,
+    inserirProdutora
 }

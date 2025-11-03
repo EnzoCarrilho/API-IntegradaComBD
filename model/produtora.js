@@ -94,9 +94,14 @@ const setInsertProducer = async function(produtora){
     }
 }
 
+
+
+
+
+
 module.exports = {
     getSelectAllProducers,
     getSelectByIdProducer,
     getSelectLastId,
-    setInsertProducer
+    setInsertProducer,
 }
