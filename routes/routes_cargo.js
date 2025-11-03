@@ -41,4 +41,13 @@ router.post('/v1/locadora/cargo', cors(), bodyParserJSON, async (request, respon
     response.status(cargo.status_code).json(cargo)
 })
 
+router.put('/v1/locadora/cargo/:id', cors(), bodyParserJSON, async(request, response) => {
+    let idCargo = request.params.id
+    let dadosBody = request.body
+    let contentType = request.headers['content-type']
+
+    let cargo = await controller_cargo.atualizarGenero(dadosBody, idCargo, contentType)
+    response.status(cargo.status_code).json(cargo)
+})
+
 module.exports = router

@@ -92,11 +92,64 @@ const setInsertRole = async function(cargo){
     }
 }
 
+const setUpdateRole = async function(cargo){
+
+    try {
+
+        if(cargo.descicao != undefined){
+
+            let sql = `UPDATE tbl_cargo SET nome = '${cargo.nome}', 
+                        descricao' = '${cargo.descricao}' WHERE cargo_id = ${cargo.id};`
+
+            let result = await prisma.$executeRawUnsafe(sql)
+            
+            if(result)
+                return result
+            else
+                return false
+
+        }else{
+
+            let sql = `UPDATE tbl_cargo SET nome = '${cargo.nome}' WHERE cargo_id = ${cargo.id}` 
+
+            let result = await prisma.$executeRawUnsafe(sql)
+            
+            if(result)
+                return result
+            else
+                return false
+        }
+
+    } catch (error) {
+        return false
+    }
+}
+
+const setDeleteRole = async function(id){
+    try {
+        
+        let sql = `delete from tbl_cargo where cargo_id = ${id}`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return result
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
+
 
 
 module.exports = {
     getSelectAllRoles,
     getSelectByIdRole,
     getSelectLastId,
-    setInsertRole
+    setInsertRole,
+    setUpdateRole,
+    setDeleteRole
 }
