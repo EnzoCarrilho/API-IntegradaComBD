@@ -23,5 +23,14 @@ router.get('/v1/locadora/produtora', cors(), async (request, response) => {
     response.status(produtora.status_code).json(produtora)
 })
 
+router.get('/v1/locadora/produtora/:id', cors(), async(request, response) => {
+    //Obtendo o ID do Gênero
+    let idProdutora = request.params.id
+
+    let produtora = await controller_cargo.buscarCargoID(idProdutora)
+    
+    response.status(produtora.status_code).json(produtora)
+})
+
 
 module.exports = router
