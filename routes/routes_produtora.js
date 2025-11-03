@@ -32,5 +32,13 @@ router.get('/v1/locadora/produtora/:id', cors(), async(request, response) => {
     response.status(produtora.status_code).json(produtora)
 })
 
+router.post('/v1/locadora/cargo', cors(), bodyParserJSON, async (request, response) => {
+    let dadosBody = request.body
+
+    let contentType = request.headers['content-type']
+
+    let produtora = await controller_cargo.inserirCargo(dadosBody, contentType)
+    response.status(produtora.status_code).json(produtora)
+})
 
 module.exports = router
