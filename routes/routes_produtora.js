@@ -50,4 +50,12 @@ router.put('/v1/locadora/produtora/:id', cors(), bodyParserJSON, async(request, 
     response.status(produtora.status_code).json(produtora)
 })
 
+router.delete('/v1/locadora/produtora/:id', cors(), async(request, response) => {
+    let idProdutora = request.params.id
+    
+    let produtora = await controller_produtora.excluirProdutora(idProdutora)
+    
+    response.status(produtora.status_code).json(produtora)
+})
+
 module.exports = router
