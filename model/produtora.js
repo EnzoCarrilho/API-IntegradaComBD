@@ -64,7 +64,7 @@ const setInsertProducer = async function(produtora){
 
     try {
 
-        if(produtora.descicao != undefined){
+        if(produtora.descricao != undefined){
 
             let sql = `INSERT INTO tbl_produtora(nome, ano_fundaco, logo_url, descricao)
                             values('${produtora.nome}', '${produtora.ano_fundacao}', '${produtora.logo_url}', '${produtora.descricao}');`
@@ -94,6 +94,42 @@ const setInsertProducer = async function(produtora){
     }
 }
 
+const setUpdateProducer = async function(produtora){
+
+    try {
+
+        if(produtora.descricao != undefined){
+
+            let sql = `UPDATE tbl_produtora SET nome ='${produtora.nome}', ano_fundaco = '${produtora.ano_fundacao}', 
+                            logo_url = '${produtora.logo_url}', descricao =  '${produtora.descricao}'
+                            WHERE produtora_id = ${produtora.id};`
+                            
+
+            let result = await prisma.$executeRawUnsafe(sql)
+            
+            if(result)
+                return result
+            else
+                return false
+
+        }else{
+
+            let sql = `UPDATE tbl_produtora SET nome ='${produtora.nome}', ano_fundaco = '${produtora.ano_fundacao}', 
+                            logo_url = '${produtora.logo_url}' WHERE produtora_id = ${null};`
+
+            let result = await prisma.$executeRawUnsafe(sql)
+            
+            if(result)
+                return result
+            else
+                return false
+        }
+
+    } catch (error) {
+        return false
+    }
+}
+
 
 
 
@@ -104,4 +140,5 @@ module.exports = {
     getSelectByIdProducer,
     getSelectLastId,
     setInsertProducer,
+    setUpdateProducer
 }
