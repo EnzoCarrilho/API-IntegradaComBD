@@ -96,10 +96,10 @@ const setUpdateRole = async function(cargo){
 
     try {
 
-        if(cargo.descicao != undefined){
+        if(cargo.descricao != undefined || cargo.descricao != null || cargo.descricao != ''){
 
             let sql = `UPDATE tbl_cargo SET nome = '${cargo.nome}', 
-                        descricao' = '${cargo.descricao}' WHERE cargo_id = ${cargo.id};`
+                        descricao = '${cargo.descricao}' WHERE cargo_id = ${cargo.id};`
 
             let result = await prisma.$executeRawUnsafe(sql)
             
@@ -127,10 +127,9 @@ const setUpdateRole = async function(cargo){
 
 const setDeleteRole = async function(id){
     try {
-        
-        let sql = `delete from tbl_cargo where cargo_id = ${id}`
+        let sql = `delete from tbl_cargo where cargo_id = ${id};`
 
-        let result = await prisma.$executeRawUnsafe(sql)
+        let result = await prisma.$queryRawUnsafe(sql)
 
         if(result)
             return result

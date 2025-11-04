@@ -46,15 +46,14 @@ router.put('/v1/locadora/cargo/:id', cors(), bodyParserJSON, async(request, resp
     let dadosBody = request.body
     let contentType = request.headers['content-type']
 
-    let cargo = await controller_cargo.atualizarGenero(dadosBody, idCargo, contentType)
+    let cargo = await controller_cargo.atualizarCargo(dadosBody, idCargo, contentType)
     response.status(cargo.status_code).json(cargo)
 })
 
-router.delete('/v1/locadora/genero/:id', cors(), async(request, response) => {
+router.delete('/v1/locadora/cargo/:id', cors(), async(request, response) => {
     let idCargo = request.params.id
     
-    let cargo = await controller_cargo.excluirGenero(idCargo)
-    
+    let cargo = await controller_cargo.excluirCargo(idCargo)
     response.status(cargo.status_code).json(cargo)
 })
 

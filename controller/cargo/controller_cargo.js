@@ -143,7 +143,8 @@ const atualizarCargo = async function(cargo, id, contentType){
             if(validarID.status_code == 200){
                 cargo.id = Number(id)
 
-                let resultCargo = await cargoDAO.setInsertRole(cargo)
+                let resultCargo = await cargoDAO.setUpdateRole(cargo)
+                
 
                 if(resultCargo){
 
@@ -178,7 +179,7 @@ const excluirCargo = async function(id){
         if(validarId.status_code == 200){
                 
             let resultCargo = await cargoDAO.setDeleteRole(Number(id))
-            
+ 
     
             if(resultCargo){
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status
