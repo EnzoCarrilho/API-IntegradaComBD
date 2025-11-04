@@ -36,8 +36,9 @@ router.post('/v1/locadora/produtora', cors(), bodyParserJSON, async (request, re
     let dadosBody = request.body
 
     let contentType = request.headers['content-type']
-
+    
     let produtora = await controller_produtora.inserirProdutora(dadosBody, contentType)
+    
     response.status(produtora.status_code).json(produtora)
 })
 

@@ -30,7 +30,7 @@ const getSelectAllProducers = async function(){
 
 const getSelectByIdProducer = async function(id){
     try {
-        let sql = `select * from tbl_produtora where cargo_id = ${id};`
+        let sql = `select * from tbl_produtora where produtora_id = ${id};`
 
         let result = await prisma.$queryRawUnsafe(sql)
 
@@ -64,9 +64,9 @@ const setInsertProducer = async function(produtora){
 
     try {
 
-        if(produtora.descricao != undefined){
+        if(produtora.descricao != undefined || produtora.descricao != null || produtora.descricao != ''){
 
-            let sql = `INSERT INTO tbl_produtora(nome, ano_fundaco, logo_url, descricao)
+            let sql = `INSERT INTO tbl_produtora(nome, ano_fundacao, logo_url, descricao)
                             values('${produtora.nome}', '${produtora.ano_fundacao}', '${produtora.logo_url}', '${produtora.descricao}');`
 
             let result = await prisma.$executeRawUnsafe(sql)
@@ -78,7 +78,7 @@ const setInsertProducer = async function(produtora){
 
         }else{
 
-            let sql = `INSERT INTO tbl_produtora(nome, ano_fundaco, logo_url, descricao)
+            let sql = `INSERT INTO tbl_produtora(nome, ano_fundacao, logo_url, descricao)
                             values('${produtora.nome}', '${produtora.ano_fundacao}', '${produtora.logo_url}', ${null} );`
 
             let result = await prisma.$executeRawUnsafe(sql)
@@ -98,9 +98,9 @@ const setUpdateProducer = async function(produtora){
 
     try {
 
-        if(produtora.descricao != undefined){
+        if(produtora.descricao != undefined || produtora.descricao != null || produtora.descricao != ''){
 
-            let sql = `UPDATE tbl_produtora SET nome ='${produtora.nome}', ano_fundaco = '${produtora.ano_fundacao}', 
+            let sql = `UPDATE tbl_produtora SET nome ='${produtora.nome}', ano_fundacao = '${produtora.ano_fundacao}', 
                             logo_url = '${produtora.logo_url}', descricao =  '${produtora.descricao}'
                             WHERE produtora_id = ${produtora.id};`
                             
@@ -114,7 +114,7 @@ const setUpdateProducer = async function(produtora){
 
         }else{
 
-            let sql = `UPDATE tbl_produtora SET nome ='${produtora.nome}', ano_fundaco = '${produtora.ano_fundacao}', 
+            let sql = `UPDATE tbl_produtora SET nome ='${produtora.nome}', ano_fundacao = '${produtora.ano_fundacao}', 
                             logo_url = '${produtora.logo_url}' WHERE produtora_id = ${null};`
 
             let result = await prisma.$executeRawUnsafe(sql)
@@ -133,7 +133,7 @@ const setUpdateProducer = async function(produtora){
 const setDeleteProducer = async function(id){
     try {
         
-        let sql = `delete from tbl_produtora where produtora_id = ${id}`
+        let sql = `delete from tbl_produtora where produtora_id = ${id};`
 
         let result = await prisma.$executeRawUnsafe(sql)
 

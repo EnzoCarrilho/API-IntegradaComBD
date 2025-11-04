@@ -48,7 +48,7 @@ const buscarProdutoraID = async function(id){
         //Validando a chegada do ID
         if(!isNaN(id) && id != '' && id > 0){
             let resultProdutora = await producerDAO.getSelectByIdProducer(Number(id))
-
+            
             if(resultProdutora){
 
                 if(resultProdutora.length > 0){
@@ -82,33 +82,37 @@ const inserirProdutora = async function(produtora, contentType){
     try {
          if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-        let validar = await validarDadosProdutora()
-        if(!validar){
+            let validar = await validarDadosProdutora(produtora)
             
-            let resultProducer = await producerDAO.setInsertProducer(produtora)
-
-            //Adicionar Filme no retorno
-            if(resultProducer){
-
-                let lastId = await producerDAO.getSelectLastId()
+        
+            if(!validar){
                 
-                if(lastId){
-                    produtora.id = lastId
+                let resultProducer = await producerDAO.setInsertProducer(produtora)
+                
+                //Adicionar Filme no retorno
+                if(resultProducer){
 
-                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
-                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
-                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
-                    MESSAGES.DEFAULT_HEADER.items = produtora
+                    let lastId = await producerDAO.getSelectLastId()
+                    
+                    if(lastId){
+                        produtora.id = lastId
+
+                        MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
+                        MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
+                        MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
+                        MESSAGES.DEFAULT_HEADER.items = produtora
+
+                        return MESSAGES.DEFAULT_HEADER
+                    }else{
+                        MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+                    }            
+                    return MESSAGES.DEFAULT_HEADER //201
                 }else{
-                    MESSAGES.ERROR_INTERNAL_SERVER_MODEL
-                }            
-                return MESSAGES.DEFAULT_HEADER //201
+                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+                }
             }else{
-                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+                return validar
             }
-        }else{
-            return validar
-        }
 
     }else{
         return MESSAGES.ERROR_CONTENT_TYPE //415
@@ -129,6 +133,7 @@ const atualizarProdutora = async function(produtora, id, contentType){
 
                 //Chama a função de validação de dados do Filme
                 let validar = await validarDadosProdutora(produtora)
+
                 if(!validar){
 
                     //Validação de ID válido, chama a função da controller que ferifica no BD se o ID existe e valida o
@@ -170,9 +175,6 @@ const atualizarProdutora = async function(produtora, id, contentType){
 }
 
 
-
-
-
 const validarDadosProdutora = async function(produtora){
 
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
@@ -202,11 +204,11 @@ const excluirProdutora = async function(id){
     try {
             
         let validarId = await buscarProdutoraID(id)
-            
+        
         if(validarId.status_code == 200){
                 
-            let resultProducer = await cargoDAO.setDeleteRole(Number(id))
-            
+            let resultProducer = await producerDAO.setDeleteProducer(Number(id))
+           
     
             if(resultProducer){
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status
