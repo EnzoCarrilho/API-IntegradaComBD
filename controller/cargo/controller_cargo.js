@@ -92,6 +92,7 @@ const inserirCargo = async function(cargo, contentType){
 
             let resultCargo = await cargoDAO.setInsertRole(cargo)
 
+
             //Adicionar Filme no retorno
             if(resultCargo){
 
@@ -104,6 +105,10 @@ const inserirCargo = async function(cargo, contentType){
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                     MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
                     MESSAGES.DEFAULT_HEADER.items = cargo
+
+                    
+                    return MESSAGES.DEFAULT_HEADER
+                    
                 }else{
                     MESSAGES.ERROR_INTERNAL_SERVER_MODEL
                 }            

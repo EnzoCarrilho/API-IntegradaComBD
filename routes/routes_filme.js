@@ -16,13 +16,14 @@ const bodyParserJSON = bodyParser.json()
 
 const router = express.Router()
 
-const controller_filme = require('./controller/filme/controller_filme.js')
+const controller_filme = require('../controller/filme/controller_filme.js')
 
 
 //Retorna a lista de todos os filmes
 router.get('/v1/locadora/filme', cors(), async (request, response) => {
     //Chama a função para listar os filmes do BD
     let filme = await controller_filme.listarFilmes()
+    console.log(filme.status_code)
     response.status(filme.status_code).json(filme)
 })
 

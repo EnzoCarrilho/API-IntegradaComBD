@@ -16,7 +16,7 @@ const bodyParserJSON = bodyParser.json()
 
 const router = express.Router()
 
-const controller_produtora = require('./controller/produtora/controller_produtora.js')
+const controller_produtora = require('../controller/produtora/controller_produtora.js')
 
 router.get('/v1/locadora/produtora', cors(), async (request, response) => {
     let produtora = await controller_produtora.listarProdutoras()

@@ -16,7 +16,7 @@ const bodyParserJSON = bodyParser.json()
 
 const router = express.Router()
 
-const controller_genero = require('./controller/filme/controller_genero')
+const controller_genero = require('../controller/genero/controller_genero')
 
 router.get('/v1/locadora/genero', cors(), async (request, response) => {
     //Chama a função para listar os generos do BD

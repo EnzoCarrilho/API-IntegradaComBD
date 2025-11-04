@@ -16,7 +16,7 @@ const bodyParserJSON = bodyParser.json()
 
 const router = express.Router()
 
-const controller_cargo = require('./controller/cargo/controller_cargo.js')
+const controller_cargo = require('../controller/cargo/controller_cargo.js')
 
 router.get('/v1/locadora/cargo', cors(), async (request, response) => {
     let cargo = await controller_cargo.listarCargos()

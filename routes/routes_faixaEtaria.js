@@ -16,7 +16,7 @@ const bodyParserJSON = bodyParser.json()
 
 const router = express.Router()
 
-const controller_faixaEtaria = require('./controller/faixa-etaria/controller_faixa_etaria.js')
+const controller_faixaEtaria = require('../controller/faixa-etaria/controller_faixa_etaria.js')
 
 router.get('/v1/locadora/faixa-etaria', cors(), async (request, response) => {
     //Chama a função para listar os generos do BD

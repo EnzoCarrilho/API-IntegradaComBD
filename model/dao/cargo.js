@@ -52,7 +52,7 @@ const getSelectLastId = async function(){
         let result = await prisma.$queryRawUnsafe(sql)
 
         if(Array.isArray(result))
-            return Number(result[0].genero_id)
+            return Number(result[0].cargo_id)
         else
             return false
     } catch (error) {
@@ -64,7 +64,7 @@ const setInsertRole = async function(cargo){
 
     try {
 
-        if(cargo.descicao != undefined){
+        if(cargo.descicao != undefined || cargo.descicao != null || cargo.descicao != ''){
 
             let sql = `INSERT INTO tbl_cargo(nome, descricao)values('${cargo.nome}', '${cargo.descricao}');`
 
