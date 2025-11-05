@@ -102,6 +102,8 @@ const inserirGenero = async function(genero, contentType){
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                     MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
                     MESSAGES.DEFAULT_HEADER.items = genero
+
+                    return MESSAGES.DEFAULT_HEADER
                 }else{
                     MESSAGES.ERROR_INTERNAL_SERVER_MODEL
                 }            
