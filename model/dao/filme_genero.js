@@ -50,16 +50,16 @@ const getSelectByIdMoviesGenres = async function(id){
 //Retorna uma lista de Gêneros filtrando pelo ID do filme
 const getSelectGenresByIdMovies = async function(idFilme){
     try {
-        let sql = `select tbl_genero.id, tbl_genero.nome
+        let sql = `select tbl_genero.genero_id, tbl_genero.nome
                         from tbl_filme
                             inner join tbl_filme_genero
-                                on tbl_filme.id = tbl_filme_genero.filme.id
+                                on tbl_filme.id = tbl_filme_genero.filme_id
                             inner join tbl_genero 
                                 on tbl_genero.genero_id = tbl_filme_genero.genero_id 
                         where tbl_filme.id = ${idFilme};`
 
         let result = await prisma.$queryRawUnsafe(sql)
-
+        
         if(Array.isArray(result))
             return result
         else
@@ -102,7 +102,7 @@ const getSelectLastId = async function(){
         let result = await prisma.$queryRawUnsafe(sql)
 
         if(Array.isArray(result))
-            return Number(result[0].genero_id)
+            return Number(result[0].id)
         else
             return false
     } catch (error) {
@@ -124,6 +124,7 @@ const setInsertMoviesGenre = async function(filmeGenero){
             return false
 
     } catch (error) {
+        
         return false
     }
 }

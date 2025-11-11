@@ -97,20 +97,42 @@ const inserirFilme = async function(filme, contentType){
                 if(resultFilmes){
                     //Chama a função para receber o ID gerado no BD
                     let lastId = await filmeDAO.getSelectLastId()
+                    
                     if(lastId){
 
                         //Processar a inserção dos dados na Tabela de Relação entre Filme e Gênero
-                        filme.genero.forEach(async (genero) => {
-                            let filmeGenero = {filme_id: lastId, genero_id: genero.id}
-                            let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero)
-                        })
+                        //FOR OF -> Substitui o forEach quando ele não pode ser utilizado, nesse caso async dentro de outro async
+                        for(genero of filme.genero){
+                        //filme.genero.forEach(async (genero) => {
+                            //Cria o JSON com o ID do filme e o ID do gênero
+                            
+                            let filmeGenero = {filme_id: lastId, genero_id: genero.genero_id}
+                            
+                        
+                            //Encaminha o JSON com o ID do Filme e do Gênero para a controller FilmeGenero
+                            let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
+                            
+
+                            if(resultFilmeGenero.status_code != 201)
+                                return MESSAGES.ERROR_RELATIONAL_INSERTION //500 Problema na tabela de relação
+                            
+                        }
 
                         // Adiciona o ID no JSON com os dados do Filme
                         filme.id = lastId
-
                         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
                         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
                         MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
+
+                        //Adicionar no JSON dados do gênero
+
+                        //Apaga o atributo genero apenas com os ids que foram enviados bo post
+                        delete filme.genero
+                        //Pesquisa no BD todos os generos que foram associados ao filme
+                        let resultDadosGeneros = await controllerFilmeGenero.listarGenerosIdFilme(lastId)
+                        //Cria novamente o atributo genero e coloca o resultado do BD com os generos
+                        filme.genero = resultDadosGeneros.items.filme_genero
+
                         MESSAGES.DEFAULT_HEADER.items = filme
                         
                         return MESSAGES.DEFAULT_HEADER //201

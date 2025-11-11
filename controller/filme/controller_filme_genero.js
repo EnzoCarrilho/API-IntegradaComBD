@@ -7,6 +7,7 @@
 //Import do model da DAO do genero
 const filmeGeneroDAO = require('../../model/dao/filme_genero.js')
 
+
 //Import do arquivo de mensagens
 const DEFAULT_MESSAGES = require('../modulo/config_messages.js')
 
@@ -79,11 +80,12 @@ const buscarFilmeGeneroID = async function(id){
 const listarGenerosIdFilme = async function(idFilme){
     //Criando um objeto novo para as mensagens
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
-
+    
     try {
         //Validando a chegada do ID
         if(!isNaN(idFilme) && idFilme != '' && idFilme > 0){
             let resultFilmeGenero = await filmeGeneroDAO.getSelectGenresByIdMovies(Number(idFilme))
+            
 
             if(resultFilmeGenero){
 
@@ -154,13 +156,15 @@ const inserirFilmeGenero = async function(filmeGenero, contentType){
 
     if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-        let validar = validarDadosFilmeGenero(filmeGenero)
+
+        let validar = await validarDadosFilmeGenero(filmeGenero)
+       
 
         //Validação da entrada de dados
         if(!validar){
 
-            let resultFilmesGeneros = await generoDAO.setInsertMoviesGenre(filmeGenero)
-
+            let resultFilmesGeneros = await filmeGeneroDAO.setInsertMoviesGenre(filmeGenero)
+            
             //Adicionar Filme no retorno
             if(resultFilmesGeneros){
 
@@ -175,6 +179,7 @@ const inserirFilmeGenero = async function(filmeGenero, contentType){
                     MESSAGES.DEFAULT_HEADER.items = filmeGenero
 
                     return MESSAGES.DEFAULT_HEADER
+
                 }else{
                     MESSAGES.ERROR_INTERNAL_SERVER_MODEL
                 }            
@@ -296,7 +301,7 @@ const validarDadosFilmeGenero = async function(filmeGenero) {
 
     }else{
         return false
-    }
+    }   
 }
 
 
