@@ -55,9 +55,13 @@ const buscarFilmeId = async function(id){
 
             if(resultFilmes){
                 if(resultFilmes.length > 0){
+                    
+                    let resultFilmeGeneros = await controllerFilmeGenero.listarGenerosIdFilme(id)
+                    
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.filme = resultFilmes
+                    MESSAGES.DEFAULT_HEADER.items.filme[0].generos = resultFilmeGeneros.items.filme_genero
 
                     return MESSAGES.DEFAULT_HEADER //200
                     
