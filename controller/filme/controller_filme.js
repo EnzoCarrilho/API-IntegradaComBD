@@ -200,10 +200,36 @@ const atualizarFilme = async function(filme, id, contentType){
                         
 
                         if(resultFilmes){
+
+                            if(filme.genero){
+                                let resultFilmeGeneros = await controllerFilmeGenero.listarGenerosIdFilme(id)
+                                    if(resultFilmeGeneros.status_code == 200){
+                                        let resultDeleteFilmeGenero = await controllerFilmeGenero.excluirFilmeGeneroIdFilme(id)
+                                        console.log(resultDeleteFilmeGenero)
+                                        
+                                    }
+
+                                    for(genero of filme.genero){
+                                            //filme.genero.forEach(async (genero) => {
+                                                //Cria o JSON com o ID do filme e o ID do gênero
+                                                
+                                        let filmeGenero = {filme_id: id, genero_id: genero.genero_id}
+                                        
+                                                
+                                        //Encaminha o JSON com o ID do Filme e do Gênero para a controller FilmeGenero
+                                        let resultFilmeGenero = await controllerFilmeGenero.inserirFilmeGenero(filmeGenero, contentType)
+                                                
+                                        if(resultFilmeGenero.status_code != 201)
+                                            return MESSAGES.ERROR_RELATIONAL_INSERTION //500 Problema na tabela de relação
+                                                
+                                    }      
+                            }
+
                             MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
                             MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code
                             MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message
                             MESSAGES.DEFAULT_HEADER.items.filme = filme
+
                             
                             return MESSAGES.DEFAULT_HEADER //201
                         }else{
