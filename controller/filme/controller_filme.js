@@ -204,8 +204,7 @@ const atualizarFilme = async function(filme, id, contentType){
                             if(filme.genero){
                                 let resultFilmeGeneros = await controllerFilmeGenero.listarGenerosIdFilme(id)
                                     if(resultFilmeGeneros.status_code == 200){
-                                        let resultDeleteFilmeGenero = await controllerFilmeGenero.excluirFilmeGeneroIdFilme(id)
-                                        console.log(resultDeleteFilmeGenero)
+                                        await controllerFilmeGenero.excluirFilmeGeneroIdFilme(id)
                                         
                                     }
 
