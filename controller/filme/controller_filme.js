@@ -25,6 +25,17 @@ const listarFilmes = async function(){
 
         if(resultFilmes){
             if(resultFilmes.length > 0){
+
+                //Processamento para adicionar os gêneros aos filmes
+
+                for(filme of resultFilmes){
+                    let resultFilmeGeneros = await controllerFilmeGenero.listarGenerosIdFilme(filme.id)
+                    if(resultFilmeGeneros.status_code == 200)
+                        filme.generos = resultFilmeGeneros.items.filme_genero
+                    
+                }
+
+
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                 MESSAGES.DEFAULT_HEADER.items.filmes = resultFilmes
@@ -56,12 +67,15 @@ const buscarFilmeId = async function(id){
             if(resultFilmes){
                 if(resultFilmes.length > 0){
                     
-                    let resultFilmeGeneros = await controllerFilmeGenero.listarGenerosIdFilme(id)
-                    
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
                     MESSAGES.DEFAULT_HEADER.items.filme = resultFilmes
-                    MESSAGES.DEFAULT_HEADER.items.filme[0].generos = resultFilmeGeneros.items.filme_genero
+                    
+                    //Atribuindo genêros ao filme 
+                    let resultFilmeGeneros = await controllerFilmeGenero.listarGenerosIdFilme(id)
+                    if(resultFilmeGeneros.status_code == 200)
+                        MESSAGES.DEFAULT_HEADER.items.filme[0].generos = resultFilmeGeneros.items.filme_genero
+
 
                     return MESSAGES.DEFAULT_HEADER //200
                     
